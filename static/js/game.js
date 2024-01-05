@@ -141,13 +141,10 @@ function game_over() {
     ctx.fillText('Игра окончена', GAME.width / 2 - 140, GAME.height / 2 - 135)
     ctx.fillText('Счёт первого: ' + RACKET.score, GAME.width / 2 - 140, GAME.height / 2 - 95)
     ctx.fillText('Счёт второго: ' + RACKET_2.score, GAME.width / 2 - 140, GAME.height / 2 - 55)
-    if (RACKET.score > RACKET_2.score) {
-        ctx.fillText('Победил первый', GAME.width / 2 - 140, GAME.height / 2 - 15)
-    } else if (RACKET.score < RACKET_2.score) {
-        ctx.fillText('Победил второй', GAME.width / 2 - 140, GAME.height / 2 - 15)
-    } else {
-        ctx.fillText('Ничья', GAME.width / 2 - 140, GAME.height / 2 - 15)
-    }
+    if (RACKET.score > RACKET_2.score) ctx.fillText('Победил первый', GAME.width / 2 - 140, GAME.height / 2 - 15)
+    else if (RACKET.score < RACKET_2.score) ctx.fillText('Победил второй', GAME.width / 2 - 140, GAME.height / 2 - 15)
+    else ctx.fillText('Ничья', GAME.width / 2 - 140, GAME.height / 2 - 15)
+
 }
 
 ``
@@ -157,9 +154,7 @@ function play() {
         draw_frame();
         requestAnimationFrame(play);
         console.log(GAME.score)
-    } else {
-        game_over();
-    }
+    } else game_over();
 
 }
 
