@@ -1,11 +1,23 @@
-from flask import Flask
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
+app.config['FLASK_DEBUG'] = 1
+
 
 @app.route('/')
-def hello_world():
-    return 'Hello World!'
+def nothing():
+    return "Hello world!"
+
+
+@app.route('/world')
+def world():
+    return render_template("world.html")
+
+
+@app.route('/game')
+def game():
+    return render_template("game.html")
 
 
 if __name__ == '__main__':
