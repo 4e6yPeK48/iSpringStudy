@@ -20,5 +20,10 @@ def game():
     return render_template("game.html")
 
 
+@app.route('/proj')
+def proj():
+    return render_template('proj.html')
+
+
 if __name__ == '__main__':
     app.run()
