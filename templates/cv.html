@@ -1,0 +1,26 @@
+<script src="../static/js/glfx.js"></script>
+<script>
+
+    window.onload = function () {
+        try {
+            var canvas = fx.canvas();
+        } catch (e) {
+            alert(e);
+            return;
+        }
+        canvas.viewport(0, 0, 1000, 1000);
+        var image = document.getElementById('image');
+
+        var texture = canvas.texture(image);
+
+        var before = [-1, -1, 1, -1, -1, 1, 1, 1];
+        var after = [-1, -1, 1, -1, -1, 1, 1, 1];
+
+        canvas.draw(texture).perspective(before, after).update();
+
+        image.parentNode.insertBefore(canvas, image);
+        image.parentNode.removeChild(image);
+    };
+
+</script>
+<img id="image" src="../static/img/kvd1.png" alt="">

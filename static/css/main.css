@@ -1,0 +1,19 @@
+.input-div, .canvas-div {
+    padding-left: 45px;
+    padding-right: 45px;
+    background-color: black;
+}
+
+
+.input-div {
+    background-color: black;
+    padding-bottom: 50px;
+}
+
+#enter-answer {
+    margin-bottom: 15px;
+}
+
+.canvas-div {
+    padding-bottom: 15px;
+}

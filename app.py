@@ -15,9 +15,9 @@ def world():
     return render_template("world.html")
 
 
-@app.route('/game')
+@app.route('/test')
 def game():
-    return render_template("game.html")
+    return render_template("cv.html")
 
 
 @app.route('/proj')
