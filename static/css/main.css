@@ -8,12 +8,28 @@
 .input-div {
     background-color: black;
     padding-bottom: 50px;
+    font-family: Zlu, serif;
 }
 
 #enter-answer {
     margin-bottom: 15px;
+    font-size: 40px;
+}
+
+#check-answer{
+    font-size: 40px;
 }
 
 .canvas-div {
-    padding-bottom: 15px;
+    padding-bottom: 30px;
+}
+
+@font-face {
+    font-family: Zlu;
+    src: url('../font/zlu.ttf');
+}
+
+
+html{
+    background-color: black;
 }

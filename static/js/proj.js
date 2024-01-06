@@ -1,6 +1,8 @@
 let GAME = {
     width: window.innerWidth - 75,
     height: window.innerHeight - 150,
+    score: 0,
+    record: 0,
 }
 
 let PLAYER = {
@@ -52,7 +54,21 @@ s2.src = '../static/img/s2.png'
 let s3 = new Image();
 s3.src = '../static/img/s3.png'
 
-ctx.font = '20px Montserrat';
+let deckOpen = new Image(248, 208);
+deckOpen.src = '../static/img/dC1.png';
+
+let deckClose = new Image(248, 208);
+deckClose.src = '../static/img/dBh1.png';
+
+let f = new FontFace('Comic', 'url(../static/font/zlu.ttf)');
+
+f.load().then(function (font) {
+    console.log('font ready');
+    document.fonts.add(font);
+    ctx.font = 'bold 50px Comic';
+    drawMenu(true);
+});
+
 
 function initEventListener() {
     canvas.addEventListener('mousedown', onClick);
@@ -113,15 +129,17 @@ function generateEquation(difficulty) {
     return equationList[Math.floor(Math.random() * equationList.length)];
 }
 
-function game_over(b) {
+function gameOver(b) {
     ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, GAME.width, GAME.height);
 
     ctx.fillStyle = 'white';
-    if (b === true) ctx.fillText('Вы выиграли', GAME.width / 2 - 80, GAME.height / 2);
-    else ctx.fillText('Вы проиграли', GAME.width / 2 - 80, GAME.height / 2);
+    if (b === true) {
+        ctx.fillText(`Вы выиграли! Счёт: ${GAME.score}`, GAME.width / 2 - 140, GAME.height / 2);
+        if (GAME.score > GAME.record) GAME.record = GAME.score;
+    } else ctx.fillText('Вы проиграли', GAME.width / 2 - 80, GAME.height / 2);
 
-    ctx.fillText('Нажмите "B" чтобы начать заново', GAME.width / 2 - 180, GAME.height / 2 + 30);
+    ctx.fillText('Нажмите «B» чтобы начать заново', GAME.width / 2 - 230, GAME.height / 2 + 60);
 }
 
 function checkAnswer(answer, stars) {
@@ -130,29 +148,29 @@ function checkAnswer(answer, stars) {
 
     if (answer === correctAnswer) {
         ENEMY.hp -= answer;
+        GAME.score += (selected + 1)
         CARDS.forEach(card => card.equation = generateEquation(card.stars));
-        if (ENEMY.hp <= 0) game_over(true);
+        if (ENEMY.hp <= 0) gameOver(true);
         else draw();
     } else {
         PLAYER.hp -= answer;
         CARDS.forEach(card => card.equation = generateEquation(card.stars));
-        if (PLAYER.hp <= 0) game_over(false);
+        if (PLAYER.hp <= 0) gameOver(false);
         else draw();
     }
 }
-
 
 function resetGame(b) {
     if (b === true) {
         PLAYER.hp = 100;
         ENEMY.hp = 100;
+        GAME.score = 0;
 
         CARDS.forEach(card => card.equation = generateEquation(card.stars));
 
         draw();
     }
 }
-
 
 function draw(clicked, eq) {
     ctx.fillStyle = 'black';
@@ -190,59 +208,53 @@ function draw(clicked, eq) {
     // Враг
     ctx.drawImage(enemyImage, ENEMY.x - ENEMY.width / 2, ENEMY.y, ENEMY.width, ENEMY.height);
 
-    ctx.strokeStyle = 'white';
-    ctx.fillStyle = 'white';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(100, 400);
-    ctx.lineTo(400, 400);
-    ctx.lineTo(430, 800);
-    ctx.lineTo(10, 600);
-    ctx.closePath();
-    ctx.fill();
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(GAME.width / 2 - 150, 400);
-    ctx.lineTo(GAME.width / 2 + 150, 400);
-    ctx.lineTo(GAME.width / 2 + 150 + 40, 600);
-    ctx.lineTo(GAME.width / 2 - 150 - 40, 600);
-    ctx.closePath();
-    ctx.fill();
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(GAME.width - 100, 400);
-    ctx.lineTo(GAME.width - 400, 400);
-    ctx.lineTo(GAME.width - 430, 800)
-    ctx.lineTo(GAME.width - 10, 600)
-    ctx.lineTo(GAME.width - 100, 400);
-    ctx.closePath();
-    ctx.fill();
-    ctx.stroke();
+    // карты
+    ctx.drawImage(deckClose, 50, 330, 248, 208);
+    ctx.drawImage(deckClose, GAME.width / 2 - 124, 330, 248, 208);
+    ctx.drawImage(deckClose, GAME.width - 248 - 50, 330, 248, 208);
 
     // сложность
-    ctx.drawImage(s1, 140, GAME.height / 2 + 200 - 80);
-    ctx.drawImage(s2, GAME.width / 2 - 110, GAME.height / 2 + 200 - 80);
-    ctx.drawImage(s3, GAME.width - 100 - 250, GAME.height / 2 + 200 - 80);
+    ctx.fillStyle = 'black';
+    ctx.fillText('Легко', 180, GAME.height / 2 + 200 - 40)
+    ctx.fillText('Средне', GAME.width / 2 - 70, GAME.height / 2 + 200 - 40)
+    ctx.fillText('Сложно', GAME.width - 100 - 210, GAME.height / 2 + 200 - 40)
+
+    // счет
+    ctx.fillStyle = 'white';
+    ctx.fillText(`Счёт: ${GAME.score}`, GAME.width - 200, 50)
+    ctx.fillText(`Рекорд: ${GAME.record}`, GAME.width - 200, 90)
 
     // Выражение
     ctx.fillStyle = 'black';
+    ctx.imageSmoothingEnabled = false;
     if (clicked === true) {
-        if (selected === 0) ctx.fillText(`Вычислите выражение ${eq}`, 100, GAME.height / 2 + 200);
-        if (selected === 1) ctx.fillText(`Вычислите выражение ${eq}`, GAME.width / 2 - 150, GAME.height / 2 + 200);
-        if (selected === 2) ctx.fillText(`Вычислите выражение ${eq}`, GAME.width - 100 - 290, GAME.height / 2 + 200);
+        if (selected === 0) {
+            ctx.drawImage(deckOpen, 50, 330, 248, 208);
+            ctx.fillText(`Вычислите ${eq}`, 120, GAME.height / 2 + 220);
+        }
+        if (selected === 1) {
+            ctx.drawImage(deckOpen, GAME.width / 2 - 124, 330, 248, 208);
+            ctx.fillText(`Вычислите ${eq}`, GAME.width / 2 - 130, GAME.height / 2 + 220);
+        }
+        if (selected === 2) {
+            ctx.drawImage(deckOpen, GAME.width - 248 - 50, 330, 248, 208);
+            ctx.fillText(`Вычислите ${eq}`, GAME.width - 100 - 270, GAME.height / 2 + 220);
+        }
     }
 }
 
-function draw_menu() {
+function drawMenu() {
     ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, GAME.width, GAME.height);
     ctx.fillStyle = 'white';
-    ctx.fillText('Нажмите "B" чтобы начать игру', GAME.width / 2 - 150, GAME.height / 2);
+    ctx.fillText('Нажмите «B» чтобы начать игру', GAME.width / 2 - 250, GAME.height / 2);
 }
 
 enemyImage.onload = function () {
     initEventListener();
-    draw_menu(true);
 };
+
+
+// TODO: добавить таймер
+// TODO: добавить рекорды
+// TODO: ровно подписать + расширить вниз канвас
