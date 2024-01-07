@@ -8,6 +8,7 @@ let GAME = {
 let PLAYER = {
     hp: 100,
 };
+
 let ENEMY = {
     hp: 100,
     width: 400,
@@ -15,6 +16,15 @@ let ENEMY = {
     x: GAME.width / 2 - 25,
     y: 30,
 };
+
+let monsterImages = [
+    '../static/img/monstr1.png',
+    '../static/img/monstr2.png',
+    '../static/img/monstr3.png',
+];
+
+enemyImage = new Image();
+enemyImage.src = 'static/img/monstr1.png';
 
 let CARDS = [
     {stars: 1, imagePath: '../static/img/easy/card_easy_1.png', answer: 1.1},
@@ -148,7 +158,8 @@ function gameOver(b) {
 
 function resetGame(b) {
     if (b === true) {
-        //выбор гифки врага заново
+        let randomMonsterIndex = Math.floor(Math.random() * monsterImages.length);
+        enemyImage.src = monsterImages[randomMonsterIndex];
 
         PLAYER.hp = 100;
         ENEMY.hp = 100;
@@ -248,6 +259,9 @@ function draw(clicked, card) {
     drawEnemyHealthBar();
     drawPlayerHealthBar();
 
+    ctx.drawImage(enemyImage, ENEMY.x - ENEMY.width / 2, ENEMY.y, ENEMY.width, ENEMY.height);
+
+
     // Карты неизвестные
     ctx.drawImage(deckClose, 25, GAME.height / 2 + 30, 372, 312);
     ctx.drawImage(deckClose, GAME.width / 2 - 186, GAME.height / 2 + 30, 372, 312);
@@ -293,9 +307,9 @@ function draw(clicked, card) {
 }
 
 let imagesToLoad = [
-    '../static/img/m1.gif',
-    '../static/img/m2.gif',
-    '../static/img/m3.gif',
+    '../static/img/monster1.png',
+    '../static/img/monster2.png',
+    '../static/img/monster3.png',
     '../static/img/dC1.png',
     '../static/img/dBh1.png',
     '../static/img/ph.png',
