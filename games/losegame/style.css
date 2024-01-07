@@ -1,0 +1,76 @@
+@font-face {
+    font-family: Zlu;
+    src: url('./zlu.ttf');
+}
+.input-div {
+    padding-bottom: 10px;
+    font-family: Zlu, serif;
+    font-size: 70px;
+}
+#ps {
+    font-size: 60px;
+}
+html, body {
+    height: 100%;
+}
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 95%;
+    background: url("image/1674306278_foni-club-p-fon-2d-2.jpg");
+    background-size: 100%;
+}
+#box {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    width: 400px;
+    height: 400px;
+    color: white;
+    font-family: 'Raleway';
+     font-size: 2.5rem;
+}
+.gradient-border {
+    --borderWidth: 8px;
+    background: rgba(0, 0, 0, 0.6);
+    position: relative;
+    border-radius: var(--borderWidth);
+    padding: 40px;
+    text-align: center;
+}
+.gradient-border:after {
+    content: '';
+    position: absolute;
+    top: calc(-1 * var(--borderWidth));
+    left: calc(-1 * var(--borderWidth));
+    height: calc(100% + var(--borderWidth) * 2);
+    width: calc(100% + var(--borderWidth) * 2);
+    background: linear-gradient(60deg, #272262, #3f2869, #993780, #793077, #8d337b, #9f3881, #ee4f9a, #f8a6a2, #f1529d, #82337a);
+    border-radius: calc(2 * var(--borderWidth));
+    z-index: -1;
+    animation: animatedgradient 3s ease alternate infinite;
+    background-size: 300% 300%;
+}
+@keyframes animatedgradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+.restart {
+    /* width: 50px; */
+    position: absolute;
+    margin: 28%;
+    margin-top: 65%;
+    background: rgba(0, 0, 0, 0);
+    border: none;
+}
+.img {
+    width: 150px;
+}

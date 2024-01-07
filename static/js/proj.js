@@ -1,6 +1,6 @@
 let GAME = {
-    width: window.innerWidth - 75,
-    height: window.innerHeight - 150,
+    width: window.innerWidth - 50,
+    height: window.innerHeight + 50,
     score: 0,
     record: 0,
 }
@@ -8,7 +8,6 @@ let GAME = {
 let PLAYER = {
     hp: 100,
 };
-
 let ENEMY = {
     hp: 100,
     width: 400,
@@ -18,23 +17,39 @@ let ENEMY = {
 };
 
 let CARDS = [
-    {stars: 1, equation: generateEquation(1)},
-    {stars: 2, equation: generateEquation(2)},
-    {stars: 3, equation: generateEquation(3)},
+    {stars: 1, imagePath: '../static/img/easy/card_easy_1.png', answer: 1.1},
+    {stars: 1, imagePath: '../static/img/easy/card_easy_2.png', answer: 1.2},
+    {stars: 1, imagePath: '../static/img/easy/card_easy_3.png', answer: 1.3},
+    {stars: 1, imagePath: '../static/img/easy/card_easy_4.png', answer: 1.4},
+    {stars: 1, imagePath: '../static/img/easy/card_easy_5.png', answer: 1.5},
+    {stars: 1, imagePath: '../static/img/easy/card_easy_6.png', answer: 1.6},
+
+    {stars: 2, imagePath: '../static/img/medium/card_medium_1.png', answer: 2.1},
+    {stars: 2, imagePath: '../static/img/medium/card_medium_2.png', answer: 2.2},
+    {stars: 2, imagePath: '../static/img/medium/card_medium_3.png', answer: 2.3},
+    {stars: 2, imagePath: '../static/img/medium/card_medium_4.png', answer: 2.4},
+    {stars: 2, imagePath: '../static/img/medium/card_medium_5.png', answer: 2.5},
+    {stars: 2, imagePath: '../static/img/medium/card_medium_6.png', answer: 2.6},
+
+    {stars: 3, imagePath: '../static/img/hard/card_hard_1.png', answer: 3.1},
+    {stars: 3, imagePath: '../static/img/hard/card_hard_2.png', answer: 3.2},
+    {stars: 3, imagePath: '../static/img/hard/card_hard_3.png', answer: 3.3},
 ];
 
 let ANSWERS = {
-    "2 + 3": 5,
-    "5 - 1": 4,
-    "8 * 2": 16,
-    "10 - 4": 6,
-    "15 + 6": 21,
-    "20 * 5": 100,
+    1.1: 2,
+    1.2: 4,
+
+    2.1: 16,
+    2.2: 6,
+
+    3.1: 21,
+    3.2: 100,
 };
 
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
-canvas.width = GAME.width - 25;
+canvas.width = GAME.width;
 canvas.height = GAME.height - 25;
 
 let selected = -1;
@@ -42,33 +57,26 @@ let selected = -1;
 let checkButton = document.querySelector("#check-answer")
 let inputTitle = document.querySelector('#enter-answer')
 
-let enemyImage = new Image();
-enemyImage.src = '../static/img/monstr.png';
-
-let s1 = new Image();
-s1.src = '../static/img/s1.png'
-
-let s2 = new Image();
-s2.src = '../static/img/s2.png'
-
-let s3 = new Image();
-s3.src = '../static/img/s3.png'
-
-let deckOpen = new Image(248, 208);
+let deckOpen = new Image(372, 312);
 deckOpen.src = '../static/img/dC1.png';
 
-let deckClose = new Image(248, 208);
+let deckClose = new Image(372, 312);
 deckClose.src = '../static/img/dBh1.png';
+
+let ph = new Image();
+ph.src = '../static/img/ph.png';
 
 let f = new FontFace('Comic', 'url(../static/font/zlu.ttf)');
 
-f.load().then(function (font) {
-    console.log('font ready');
-    document.fonts.add(font);
-    ctx.font = 'bold 50px Comic';
-    drawMenu(true);
-});
-
+ph.onload = function () {
+    f.load().then(function (font) {
+        console.log('font ready');
+        document.fonts.add(font);
+        ctx.font = 'bold 50px Comic';
+        drawMenu(true);
+        initEventListener();
+    });
+};
 
 function initEventListener() {
     canvas.addEventListener('mousedown', onClick);
@@ -86,52 +94,46 @@ function initEventListener() {
 function onClick(event) {
     let clickX = event.clientX;
 
+    let loadImagePromises = [];
+
     if (clickX < GAME.width / 3) {
         selected = 0;
-        draw(true, CARDS[0].equation);
+        loadImagePromises.push(loadImage(generateEquation(1).imagePath));
     }
 
     if ((clickX > GAME.width / 3) && (clickX < GAME.width / 3 * 2)) {
         selected = 1;
-        draw(true, CARDS[1].equation);
+        loadImagePromises.push(loadImage(generateEquation(2).imagePath));
     }
 
     if (clickX > (GAME.width / 3 * 2)) {
         selected = 2;
-        draw(true, CARDS[2].equation);
+        loadImagePromises.push(loadImage(generateEquation(3).imagePath));
     }
+
+    Promise.all(loadImagePromises)
+        .then(() => {
+            draw(true, generateEquation(selected + 1));
+        })
+        .catch(error => {
+            console.error('Ошибка загрузки изображения:', error);
+        });
 }
 
 function onKeyDown(event) {
     if (event.key === 'b') resetGame(true);
 }
 
-function generateEquation(difficulty) {
-    let equationList;
-
-    if (difficulty === 1) {
-        equationList = [
-            "2 + 3",
-            "5 - 1",
-        ];
-    } else if (difficulty === 2) {
-        equationList = [
-            "8 * 2",
-            "10 - 4",
-        ];
-    } else if (difficulty === 3) {
-        equationList = [
-            "15 + 6",
-            "20 * 5",
-        ];
-    }
-
-    return equationList[Math.floor(Math.random() * equationList.length)];
+function drawMenu() {
+    ctx.fillStyle = '#2b2b2b';
+    ctx.drawImage(ph, 0, 0);
+    ctx.fillStyle = 'white';
+    ctx.fillText('Нажмите «B» чтобы начать игру', GAME.width / 2 - 250, GAME.height / 2);
 }
 
 function gameOver(b) {
-    ctx.fillStyle = 'black';
-    ctx.fillRect(0, 0, GAME.width, GAME.height);
+    ctx.fillStyle = '#2b2b2b';
+    ctx.drawImage(ph, 0, 0);
 
     ctx.fillStyle = 'white';
     if (b === true) {
@@ -139,7 +141,28 @@ function gameOver(b) {
         if (GAME.score > GAME.record) GAME.record = GAME.score;
     } else ctx.fillText('Вы проиграли', GAME.width / 2 - 80, GAME.height / 2);
 
+    // выбор гифки игрока заново
+
     ctx.fillText('Нажмите «B» чтобы начать заново', GAME.width / 2 - 230, GAME.height / 2 + 60);
+}
+
+function resetGame(b) {
+    if (b === true) {
+        //выбор гифки врага заново
+
+        PLAYER.hp = 100;
+        ENEMY.hp = 100;
+        GAME.score = 0;
+
+        CARDS.forEach(card => card.equation = generateEquation(card.stars));
+
+        draw();
+    }
+}
+
+function generateEquation(difficulty) {
+    let cardOptions = CARDS.filter(card => card.stars === difficulty);
+    return cardOptions[Math.floor(Math.random() * cardOptions.length)];
 }
 
 function checkAnswer(answer, stars) {
@@ -160,101 +183,174 @@ function checkAnswer(answer, stars) {
     }
 }
 
-function resetGame(b) {
-    if (b === true) {
-        PLAYER.hp = 100;
-        ENEMY.hp = 100;
-        GAME.score = 0;
+function drawTextWithOutline(text, x, y, fillStyle, strokeStyle) {
+    ctx.font = 'bold 70px Comic';
+    ctx.fillStyle = fillStyle;
+    ctx.strokeStyle = strokeStyle;
+    ctx.lineWidth = 5;
+    ctx.strokeText(text, x, y);
+    ctx.fillText(text, x, y);
+}
 
-        CARDS.forEach(card => card.equation = generateEquation(card.stars));
+function drawEnemyHealthBar() {
+    let barWidth = 150;
+    let barHeight = 20;
+    let numSegments = 5;
+    let segmentWidth = barWidth / numSegments;
+    let segmentPercentage = 20;
 
-        draw();
+    ctx.fillStyle = 'black';
+    ctx.strokeStyle = 'black';
+    ctx.lineWidth = 2;
+
+    ctx.beginPath();
+    ctx.rect(10, 20, barWidth, barHeight);
+    ctx.stroke();
+
+    for (let i = 0; i < numSegments; i++) {
+        let segmentX = 10 + i * segmentWidth;
+        let alpha = Math.max(0, Math.min(1, (ENEMY.hp - i * segmentPercentage) / segmentPercentage));
+
+        ctx.fillStyle = `rgba(255, 0, 59, ${alpha})`;
+        ctx.fillRect(segmentX, 20, segmentWidth, barHeight);
     }
 }
 
-function draw(clicked, eq) {
-    ctx.fillStyle = 'black';
-    ctx.fillRect(0, 0, GAME.width, GAME.height);
+function drawPlayerHealthBar() {
+    let barWidth = 150;
+    let barHeight = 20;
+    let numSegments = 5;
+    let segmentWidth = barWidth / numSegments;
+    let segmentPercentage = 20;
 
-    // обводка хп
-    ctx.strokeStyle = 'white';
+    ctx.fillStyle = 'black';
+    ctx.strokeStyle = 'black';
     ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(10, 20);
-    ctx.lineTo(160, 20);
-    ctx.lineTo(160, 40);
-    ctx.lineTo(10, 40);
-    ctx.lineTo(10, 20);
-    ctx.stroke();
 
     ctx.beginPath();
-    ctx.moveTo(10, 50);
-    ctx.lineTo(160, 50);
-    ctx.lineTo(160, 70);
-    ctx.lineTo(10, 70);
-    ctx.lineTo(10, 50);
+    ctx.rect(10, 50, barWidth, barHeight);
     ctx.stroke();
 
-    // Шкала хп игрока
-    let playerHpWidth = Math.min((PLAYER.hp / 100) * 150, 150);
-    ctx.fillStyle = '#00de30';
-    ctx.fillRect(10, 50, playerHpWidth, 20);
+    for (let i = 0; i < numSegments; i++) {
+        let segmentX = 10 + i * segmentWidth;
+        let alpha = Math.max(0, Math.min(1, (PLAYER.hp - i * segmentPercentage) / segmentPercentage));
 
-    // Хп врага
-    let enemyHpWidth = Math.min((ENEMY.hp / 100) * 150, 150);
-    ctx.fillStyle = '#ff003b';
-    ctx.fillRect(10, 20, enemyHpWidth, 20);
+        ctx.fillStyle = `rgba(0, 222, 48, ${alpha})`;
+        ctx.fillRect(segmentX, 50, segmentWidth, barHeight);
+    }
+}
 
-    // Враг
-    ctx.drawImage(enemyImage, ENEMY.x - ENEMY.width / 2, ENEMY.y, ENEMY.width, ENEMY.height);
+function draw(clicked, card) {
+    ctx.fillStyle = '#2b2b2b';
+    ctx.drawImage(ph, 0, 0);
 
-    // карты
-    ctx.drawImage(deckClose, 50, 330, 248, 208);
-    ctx.drawImage(deckClose, GAME.width / 2 - 124, 330, 248, 208);
-    ctx.drawImage(deckClose, GAME.width - 248 - 50, 330, 248, 208);
+    // ХП врага и игрока
+    drawEnemyHealthBar();
+    drawPlayerHealthBar();
 
-    // сложность
-    ctx.fillStyle = 'black';
-    ctx.fillText('Легко', 180, GAME.height / 2 + 200 - 40)
-    ctx.fillText('Средне', GAME.width / 2 - 70, GAME.height / 2 + 200 - 40)
-    ctx.fillText('Сложно', GAME.width - 100 - 210, GAME.height / 2 + 200 - 40)
+    // Карты неизвестные
+    ctx.drawImage(deckClose, 25, GAME.height / 2 + 30, 372, 312);
+    ctx.drawImage(deckClose, GAME.width / 2 - 186, GAME.height / 2 + 30, 372, 312);
+    ctx.drawImage(deckClose, GAME.width - 372 - 25, GAME.height / 2 + 30, 372, 312);
 
-    // счет
+    // Сложность на картах
+    drawTextWithOutline('Легко', 160, GAME.height / 2 + 180, 'white', 'black');
+    drawTextWithOutline('Средне', GAME.width / 2 - 70, GAME.height / 2 + 180, 'white', 'black');
+    drawTextWithOutline('Сложно', GAME.width - 280, GAME.height / 2 + 180, 'white', 'black');
+
+    // Счёт
+    ctx.font = 'bold 50px Comic';
     ctx.fillStyle = 'white';
     ctx.fillText(`Счёт: ${GAME.score}`, GAME.width - 200, 50)
     ctx.fillText(`Рекорд: ${GAME.record}`, GAME.width - 200, 90)
 
-    // Выражение
+    // Выражение на карте
     ctx.fillStyle = 'black';
     ctx.imageSmoothingEnabled = false;
     if (clicked === true) {
         if (selected === 0) {
-            ctx.drawImage(deckOpen, 50, 330, 248, 208);
-            ctx.fillText(`Вычислите ${eq}`, 120, GAME.height / 2 + 220);
+            let pic = new Image();
+            pic.src = card.imagePath;
+            ctx.drawImage(deckOpen, 25, GAME.height / 2 + 30, 372, 312);
+            ctx.drawImage(pic, 60, GAME.height / 2 + 70, 280, 175);
+            console.log(card.imagePath);
         }
         if (selected === 1) {
-            ctx.drawImage(deckOpen, GAME.width / 2 - 124, 330, 248, 208);
-            ctx.fillText(`Вычислите ${eq}`, GAME.width / 2 - 130, GAME.height / 2 + 220);
+            let pic = new Image();
+            pic.src = card.imagePath;
+            ctx.drawImage(deckOpen, GAME.width / 2 - 186, GAME.height / 2 + 30, 372, 312);
+            ctx.drawImage(pic, GAME.width / 2 - 140, GAME.height / 2 + 70, 280, 175);
+            console.log(card.imagePath);
         }
         if (selected === 2) {
-            ctx.drawImage(deckOpen, GAME.width - 248 - 50, 330, 248, 208);
-            ctx.fillText(`Вычислите ${eq}`, GAME.width - 100 - 270, GAME.height / 2 + 220);
+            let pic = new Image();
+            pic.src = card.imagePath;
+            ctx.drawImage(deckOpen, GAME.width - 372 - 25, GAME.height / 2 + 30, 372, 312);
+            ctx.drawImage(pic, GAME.width - 350, GAME.height / 2 + 70, 280, 175);
+            console.log(card.imagePath);
         }
     }
 }
 
-function drawMenu() {
-    ctx.fillStyle = 'black';
-    ctx.fillRect(0, 0, GAME.width, GAME.height);
-    ctx.fillStyle = 'white';
-    ctx.fillText('Нажмите «B» чтобы начать игру', GAME.width / 2 - 250, GAME.height / 2);
+let imagesToLoad = [
+    '../static/img/m1.gif',
+    '../static/img/m2.gif',
+    '../static/img/m3.gif',
+    '../static/img/dC1.png',
+    '../static/img/dBh1.png',
+    '../static/img/ph.png',
+
+    // Добавляем изображения для карточек
+    '../static/img/easy/card_easy_1.png',
+    '../static/img/easy/card_easy_2.png',
+    '../static/img/easy/card_easy_3.png',
+    '../static/img/easy/card_easy_4.png',
+    '../static/img/easy/card_easy_5.png',
+    '../static/img/easy/card_easy_6.png',
+
+    '../static/img/medium/card_medium_1.png',
+    '../static/img/medium/card_medium_2.png',
+    '../static/img/medium/card_medium_3.png',
+    '../static/img/medium/card_medium_4.png',
+    '../static/img/medium/card_medium_5.png',
+    '../static/img/medium/card_medium_6.png',
+
+    '../static/img/hard/card_hard_1.png',
+    '../static/img/hard/card_hard_2.png',
+    '../static/img/hard/card_hard_3.png',
+];
+
+let loadedImages = {};
+
+async function loadImage(src) {
+    return new Promise((resolve, reject) => {
+        let image = new Image();
+        image.onload = () => resolve(image);
+        image.onerror = reject;
+        image.src = src;
+    });
 }
 
-enemyImage.onload = function () {
-    initEventListener();
-};
+async function loadImages(imagePaths) {
+    let loadedImages = {};
+    for (let path of imagePaths) {
+        loadedImages[path] = await loadImage(path);
+    }
+    return loadedImages;
+}
 
+async function startGame() {
+    try {
+        loadedImages = await loadImages(imagesToLoad);
+    } catch (error) {
+        console.error('Ошибка загрузки изображений:', error);
+    }
+}
 
+document.addEventListener('DOMContentLoaded', function () {
+    startGame();
+});
 // TODO: добавить таймер
 // TODO: добавить рекорды
 // TODO: ровно подписать + расширить вниз канвас
+// TODO: не давать возможность сменить карточку

@@ -20,6 +20,10 @@ def game():
     return render_template("cv.html")
 
 
+@app.route('/new')
+def new():
+    return render_template("new.html")
+
 @app.route('/proj')
 def proj():
     return render_template('proj.html')
