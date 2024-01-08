@@ -36,7 +36,7 @@
     function restartGame() {
         let urlParams = new URLSearchParams(window.location.search);
         let record = urlParams.get('record');
-        window.location.href = `/proj?record=${record}`;
+        window.location.href = `/game?record=${record}`;
     }
 
     function mainMenu() {

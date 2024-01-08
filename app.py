@@ -30,8 +30,8 @@ def lose():
     return render_template("lose.html", score=score, record=record)
 
 
-@app.route('/proj')
-def proj():
+@app.route('/game')
+def game():
     return render_template('proj.html')
 
 

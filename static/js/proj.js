@@ -269,7 +269,6 @@ function onClick(event) {
         });
 }
 
-
 function onKeyDown(event) {
     if (event.key === 'b') {
         resetGame(true);
