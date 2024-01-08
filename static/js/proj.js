@@ -1,5 +1,5 @@
 let GAME = {
-    width: window.innerWidth - 50,
+    width: window.innerWidth - 100,
     height: window.innerHeight + 50,
     score: 0,
     record: 0,
@@ -18,44 +18,53 @@ let ENEMY = {
 };
 
 let monsterImages = [
-    '../static/img/monstr1.png',
-    '../static/img/monstr2.png',
-    '../static/img/monstr3.png',
+    '../static/img/bbb1.png',
+    '../static/img/bbb3.png',
+    '../static/img/bbb3.1.png',
 ];
 
-enemyImage = new Image();
-enemyImage.src = 'static/img/monstr1.png';
-
 let CARDS = [
-    {stars: 1, imagePath: '../static/img/easy/card_easy_1.png', answer: 1.1},
-    {stars: 1, imagePath: '../static/img/easy/card_easy_2.png', answer: 1.2},
-    {stars: 1, imagePath: '../static/img/easy/card_easy_3.png', answer: 1.3},
-    {stars: 1, imagePath: '../static/img/easy/card_easy_4.png', answer: 1.4},
-    {stars: 1, imagePath: '../static/img/easy/card_easy_5.png', answer: 1.5},
-    {stars: 1, imagePath: '../static/img/easy/card_easy_6.png', answer: 1.6},
+    {stars: 1, imagePath: '../static/img/easy/card_easy_1.png', answer: 10},
+    {stars: 1, imagePath: '../static/img/easy/card_easy_2.png', answer: 10},
+    {stars: 1, imagePath: '../static/img/easy/card_easy_3.png', answer: 10},
+    {stars: 1, imagePath: '../static/img/easy/card_easy_4.png', answer: 10},
+    {stars: 1, imagePath: '../static/img/easy/card_easy_5.png', answer: 10},
+    {stars: 1, imagePath: '../static/img/easy/card_easy_6.png', answer: 10},
 
-    {stars: 2, imagePath: '../static/img/medium/card_medium_1.png', answer: 2.1},
-    {stars: 2, imagePath: '../static/img/medium/card_medium_2.png', answer: 2.2},
-    {stars: 2, imagePath: '../static/img/medium/card_medium_3.png', answer: 2.3},
-    {stars: 2, imagePath: '../static/img/medium/card_medium_4.png', answer: 2.4},
-    {stars: 2, imagePath: '../static/img/medium/card_medium_5.png', answer: 2.5},
-    {stars: 2, imagePath: '../static/img/medium/card_medium_6.png', answer: 2.6},
+    {stars: 2, imagePath: '../static/img/medium/card_medium_1.png', answer: 20},
+    {stars: 2, imagePath: '../static/img/medium/card_medium_2.png', answer: 20},
+    {stars: 2, imagePath: '../static/img/medium/card_medium_3.png', answer: 20},
+    {stars: 2, imagePath: '../static/img/medium/card_medium_4.png', answer: 20},
+    {stars: 2, imagePath: '../static/img/medium/card_medium_5.png', answer: 20},
+    {stars: 2, imagePath: '../static/img/medium/card_medium_6.png', answer: 20},
 
-    {stars: 3, imagePath: '../static/img/hard/card_hard_1.png', answer: 3.1},
-    {stars: 3, imagePath: '../static/img/hard/card_hard_2.png', answer: 3.2},
-    {stars: 3, imagePath: '../static/img/hard/card_hard_3.png', answer: 3.3},
+    {stars: 3, imagePath: '../static/img/hard/card_hard_1.png', answer: 30},
+    {stars: 3, imagePath: '../static/img/hard/card_hard_2.png', answer: 30},
+    {stars: 3, imagePath: '../static/img/hard/card_hard_3.png', answer: 30},
 ];
 
 let ANSWERS = {
-    1.1: 2,
-    1.2: 4,
+    '../static/img/easy/card_easy_1.png': 1,
+    '../static/img/easy/card_easy_2.png': 2,
+    '../static/img/easy/card_easy_3.png': 3,
+    '../static/img/easy/card_easy_4.png': 4,
+    '../static/img/easy/card_easy_5.png': 5,
+    '../static/img/easy/card_easy_6.png': 6,
 
-    2.1: 16,
-    2.2: 6,
+    '../static/img/medium/card_medium_1.png': 11,
+    '../static/img/medium/card_medium_2.png': 12,
+    '../static/img/medium/card_medium_3.png': 13,
+    '../static/img/medium/card_medium_4.png': 14,
+    '../static/img/medium/card_medium_5.png': 15,
+    '../static/img/medium/card_medium_6.png': 16,
 
-    3.1: 21,
-    3.2: 100,
+    '../static/img/hard/card_hard_1.png': 21,
+    '../static/img/hard/card_hard_2.png': 22,
+    '../static/img/hard/card_hard_3.png': 23,
 };
+
+enemyImage = new Image();
+enemyImage.src = 'static/img/monstr1.png';
 
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
@@ -131,7 +140,9 @@ function onClick(event) {
 }
 
 function onKeyDown(event) {
-    if (event.key === 'b') resetGame(true);
+    if (event.key === 'b') {
+        resetGame(true);
+    }
 }
 
 function drawMenu() {
@@ -141,25 +152,22 @@ function drawMenu() {
     ctx.fillText('Нажмите «B» чтобы начать игру', GAME.width / 2 - 250, GAME.height / 2);
 }
 
-function gameOver(b) {
-    ctx.fillStyle = '#2b2b2b';
-    ctx.drawImage(ph, 0, 0);
-
-    ctx.fillStyle = 'white';
-    if (b === true) {
-        ctx.fillText(`Вы выиграли! Счёт: ${GAME.score}`, GAME.width / 2 - 140, GAME.height / 2);
-        if (GAME.score > GAME.record) GAME.record = GAME.score;
-    } else ctx.fillText('Вы проиграли', GAME.width / 2 - 80, GAME.height / 2);
-
-    // выбор гифки игрока заново
-
-    ctx.fillText('Нажмите «B» чтобы начать заново', GAME.width / 2 - 230, GAME.height / 2 + 60);
-}
-
 function resetGame(b) {
+    GAME.record = parseInt(new URLSearchParams(window.location.search).get('record')) || 0;
     if (b === true) {
         let randomMonsterIndex = Math.floor(Math.random() * monsterImages.length);
+        if (monsterImages[randomMonsterIndex] === '../static/img/bbb3.png') {
+            ENEMY.width = 300;
+        }
+        if (monsterImages[randomMonsterIndex] === '../static/img/bbb3.1.png') {
+            ENEMY.width = 400;
+        }
+        if (monsterImages[randomMonsterIndex] === '../static/img/bbb1.png') {
+            ENEMY.width = 350;
+        }
+
         enemyImage.src = monsterImages[randomMonsterIndex];
+        console.log(monsterImages[randomMonsterIndex]);
 
         PLAYER.hp = 100;
         ENEMY.hp = 100;
@@ -173,24 +181,43 @@ function resetGame(b) {
 
 function generateEquation(difficulty) {
     let cardOptions = CARDS.filter(card => card.stars === difficulty);
-    return cardOptions[Math.floor(Math.random() * cardOptions.length)];
+    let selectedCard = cardOptions[Math.floor(Math.random() * cardOptions.length)];
+    currentCardImagePath = selectedCard.imagePath;
+    return selectedCard;
 }
 
-function checkAnswer(answer, stars) {
-    let equation = CARDS[stars - 1].equation;
-    let correctAnswer = ANSWERS[equation];
+let currentCardImagePath = '';
+
+function redirectToWin(score, record) {
+    window.location.href = `/win?score=${score}&record=${record}`;
+}
+
+function redirectToLose(score, record) {
+    window.location.href = `/lose?score=${score}&record=${record}`;
+}
+
+function checkAnswer(answer) {
+    let correctAnswer = ANSWERS[currentCardImagePath];
+    console.log(typeof answer, answer, typeof correctAnswer, correctAnswer, 'ans');
 
     if (answer === correctAnswer) {
         ENEMY.hp -= answer;
-        GAME.score += (selected + 1)
+        GAME.score += (selected + 1);
+        if (GAME.record <= GAME.score) GAME.record = GAME.score;
         CARDS.forEach(card => card.equation = generateEquation(card.stars));
-        if (ENEMY.hp <= 0) gameOver(true);
-        else draw();
+        if (ENEMY.hp <= 0) {
+            redirectToWin(GAME.score, GAME.record);
+        } else {
+            draw();
+        }
     } else {
         PLAYER.hp -= answer;
         CARDS.forEach(card => card.equation = generateEquation(card.stars));
-        if (PLAYER.hp <= 0) gameOver(false);
-        else draw();
+        if (PLAYER.hp <= 0) {
+            redirectToLose(GAME.score, GAME.record);
+        } else {
+            draw();
+        }
     }
 }
 
@@ -222,7 +249,7 @@ function drawEnemyHealthBar() {
         let segmentX = 10 + i * segmentWidth;
         let alpha = Math.max(0, Math.min(1, (ENEMY.hp - i * segmentPercentage) / segmentPercentage));
 
-        ctx.fillStyle = `rgba(255, 0, 59, ${alpha})`;
+        ctx.fillStyle = `rgba(255, 0, 77, ${alpha})`;
         ctx.fillRect(segmentX, 20, segmentWidth, barHeight);
     }
 }
@@ -246,21 +273,33 @@ function drawPlayerHealthBar() {
         let segmentX = 10 + i * segmentWidth;
         let alpha = Math.max(0, Math.min(1, (PLAYER.hp - i * segmentPercentage) / segmentPercentage));
 
-        ctx.fillStyle = `rgba(0, 222, 48, ${alpha})`;
+        ctx.fillStyle = `rgba(0, 72, 255, ${alpha})`;
         ctx.fillRect(segmentX, 50, segmentWidth, barHeight);
     }
 }
 
+let currentBackgroundImage = '';
+
+let backgroundImages = [
+    '../static/img/pxxx1.png',
+    '../static/img/pxxx2.png',
+    '../static/img/pxxx3.png',
+];
+
 function draw(clicked, card) {
     ctx.fillStyle = '#2b2b2b';
-    ctx.drawImage(ph, 0, 0);
+
+    if (loadedImages[currentBackgroundImage]) {
+        ctx.drawImage(loadedImages[currentBackgroundImage], 0, 0, canvas.width, canvas.height);
+    } else {
+    }
 
     // ХП врага и игрока
     drawEnemyHealthBar();
     drawPlayerHealthBar();
 
-    ctx.drawImage(enemyImage, ENEMY.x - ENEMY.width / 2, ENEMY.y, ENEMY.width, ENEMY.height);
-
+    // Враг
+    ctx.drawImage(enemyImage, ENEMY.x - ENEMY.width / 2, ENEMY.y + 39, ENEMY.width, ENEMY.height);
 
     // Карты неизвестные
     ctx.drawImage(deckClose, 25, GAME.height / 2 + 30, 372, 312);
@@ -307,9 +346,10 @@ function draw(clicked, card) {
 }
 
 let imagesToLoad = [
-    '../static/img/monster1.png',
-    '../static/img/monster2.png',
-    '../static/img/monster3.png',
+    '../static/img/bbb1.png',
+    '../static/img/bbb3.png',
+    '../static/img/bbb3.1.png',
+
     '../static/img/dC1.png',
     '../static/img/dBh1.png',
     '../static/img/ph.png',
@@ -332,6 +372,10 @@ let imagesToLoad = [
     '../static/img/hard/card_hard_1.png',
     '../static/img/hard/card_hard_2.png',
     '../static/img/hard/card_hard_3.png',
+
+    '../static/img/pxxx1.png',
+    '../static/img/pxxx2.png',
+    '../static/img/pxxx3.png',
 ];
 
 let loadedImages = {};
@@ -356,6 +400,7 @@ async function loadImages(imagePaths) {
 async function startGame() {
     try {
         loadedImages = await loadImages(imagesToLoad);
+        currentBackgroundImage = backgroundImages[Math.floor(Math.random() * backgroundImages.length)];
     } catch (error) {
         console.error('Ошибка загрузки изображений:', error);
     }

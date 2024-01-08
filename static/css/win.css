@@ -1,0 +1,75 @@
+@font-face {
+    font-family: Zlu;
+    src: url('../font/zlu.ttf');
+}
+
+.input-div {
+    font-family: Zlu, serif;
+    font-size: 50px;
+    color: white;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 95%;
+    background: url("../img/win_ph2.png");
+    background-size: 100%;
+}
+
+#box {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    width: 400px;
+    height: 200px;
+    color: white;
+}
+
+.gradient-border {
+    --borderWidth: 8px;
+    background: rgba(0, 0, 0, 0.6);
+    position: relative;
+    border-radius: var(--borderWidth);
+}
+
+.gradient-border:after {
+    content: '';
+    position: absolute;
+    top: calc(-1 * var(--borderWidth));
+    left: calc(-1 * var(--borderWidth));
+    height: calc(100% + var(--borderWidth) * 2);
+    width: calc(100% + var(--borderWidth) * 2);
+    background: linear-gradient(60deg, #b03798, #a537a9, #6a1b94, #3c0e97, #1a0d8f);
+    border-radius: calc(2 * var(--borderWidth));
+    z-index: -1;
+    animation: animatedGradient 3s ease alternate infinite;
+    background-size: 300% 300%;
+}
+
+@keyframes animatedGradient {
+    0% {
+        background-position: 0 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0 50%;
+    }
+}
+
+.restart {
+    background: rgba(0, 0, 0, 0);
+    border: none;
+}
+
+.img {
+    width: 150px;
+}
+
+.restart-image{
+    width: 400px;
+    height: 136px;
+}

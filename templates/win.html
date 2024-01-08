@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/win.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="icon" type="image/png" href="../static/img/calc.png"/>
+    <title>Победа</title>
+</head>
+<body class="d-flex align-items-center justify-content-center vh-100">
+<div class="d-flex flex-column">
+    <div class="gradient-border p-4 d-flex flex-column text-center mt-4">
+        <div class="input-div">Ты выиграл!</div>
+        <div class="input-div">Текущий счет: {{ score }}</div>
+        <div class="input-div">Рекорд: {{ record }}</div>
+    </div>
+    <div class="text-center mt-5">
+        <button type="button" class="restart" onclick="restartGame()">
+            <img src="../static/img/anim/anim.gif" class="img restart-image" alt="">
+        </button>
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+<script>
+    function restartGame() {
+        let urlParams = new URLSearchParams(window.location.search);
+        let record = urlParams.get('record');
+        window.location.href = `/proj?record=${record}`;
+    }
+</script>
+</body>
+</html>

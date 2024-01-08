@@ -1,0 +1,82 @@
+@font-face {
+    font-family: Zlu;
+    src: url('../font/zlu.ttf');
+}
+
+.input-div {
+    font-family: Zlu, serif;
+    font-size: 70px;
+    display: flex;
+    align-items: center;
+}
+
+#ps {
+    font-size: 60px;
+    display: flex;
+    align-items: center;
+}
+
+.bg-image {
+    background: url("../img/menu_ph2.png") no-repeat center center fixed;
+    background-size: cover;
+}
+
+.box {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    width: 300px;
+    height: 150px;
+    color: white;
+    font-size: 2.5rem;
+    margin: 1px;
+}
+
+.gradient-border {
+    --borderWidth: 8px;
+    background: rgba(0, 0, 0, 0.8);
+    position: relative;
+    border-radius: var(--borderWidth);
+    text-align: center;
+    margin-right: 10px;
+}
+
+.gradient-border:after, .gradient-border1:after {
+    content: '';
+    position: absolute;
+    top: calc(-1 * var(--borderWidth));
+    left: calc(-1 * var(--borderWidth));
+    height: calc(100% + var(--borderWidth) * 2);
+    width: calc(100% + var(--borderWidth) * 2);
+    background: linear-gradient(60deg, #012b5d, #049fe5, #004087, #e090ae, #5c91ba, #5e5d92, #02598d);
+    border-radius: calc(2 * var(--borderWidth));
+    z-index: -1;
+    animation: animatedGradient 2.5s ease alternate infinite;
+    background-size: 300% 300%;
+}
+
+.gradient-border1 {
+    --borderWidth: 8px;
+    background: rgba(0, 0, 0, 0.8);
+    position: relative;
+    border-radius: var(--borderWidth);
+    text-align: center;
+}
+
+@keyframes animatedGradient {
+    0% {
+        background-position: 0 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0 50%;
+    }
+
+}
+
+body {
+    height: 100vh;
+    margin: 0;
+}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Старт</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/menu.css">
+    <link rel="icon" type="image/png" href="../static/img/calc.png"/>
+</head>
+<body class="bg-image">
+<div class="container d-flex align-items-center justify-content-center h-100">
+    <div class="row d-flex flex-column align-items-center my-auto">
+        <div class="mb-3">
+            <div class="box gradient-border" onclick="redirectToProj()">
+                <div class="input-div">Играть</div>
+            </div>
+        </div>
+        <div class="mt-2">
+            <div class="box gradient-border1">
+                <div class="input-div" id="ps">Настройки</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function redirectToProj() {
+        window.location.href = '/proj';
+    }
+</script>
+</body>
+</html>

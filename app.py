@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for, request
 
 app = Flask(__name__)
 
@@ -6,23 +6,29 @@ app.config['FLASK_DEBUG'] = 1
 
 
 @app.route('/')
-def nothing():
-    return "Hello world!"
+def index():
+    return redirect(url_for('menu'))
 
 
-@app.route('/world')
-def world():
-    return render_template("world.html")
+@app.route('/menu')
+def menu():
+    record = request.args.get('record', type=int)
+    return render_template("menu.html", record=record)
 
 
-@app.route('/test')
-def game():
-    return render_template("cv.html")
+@app.route('/win')
+def win():
+    score = request.args.get('score', type=int)
+    record = request.args.get('record', type=int)
+    return render_template("win.html", score=score, record=record)
 
 
-@app.route('/new')
-def new():
-    return render_template("new.html")
+@app.route('/lose')
+def lose():
+    score = request.args.get('score', type=int)
+    record = request.args.get('record', type=int)
+    return render_template("lose.html", score=score, record=record)
+
 
 @app.route('/proj')
 def proj():
@@ -31,3 +37,4 @@ def proj():
 
 if __name__ == '__main__':
     app.run(debug=True)
+    # app.run()
