@@ -410,6 +410,3 @@ document.addEventListener('DOMContentLoaded', function () {
     startGame();
 });
 // TODO: добавить таймер
-// TODO: добавить рекорды
-// TODO: ровно подписать + расширить вниз канвас
-// TODO: не давать возможность сменить карточку
