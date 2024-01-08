@@ -32,6 +32,11 @@
     margin: 1px;
 }
 
+body {
+    height: 100vh;
+    margin: 0;
+}
+
 .gradient-border {
     --borderWidth: 8px;
     background: rgba(0, 0, 0, 0.8);
@@ -74,9 +79,4 @@
         background-position: 0 50%;
     }
 
-}
-
-body {
-    height: 100vh;
-    margin: 0;
 }

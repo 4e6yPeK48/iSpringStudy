@@ -17,12 +17,6 @@ let ENEMY = {
     y: 30,
 };
 
-let monsterImages = [
-    '../static/img/bbb1.png',
-    '../static/img/bbb3.png',
-    '../static/img/bbb3.1.png',
-];
-
 let CARDS = [
     {stars: 1, imagePath: '../static/img/easy/card_easy_1.png', answer: 10},
     {stars: 1, imagePath: '../static/img/easy/card_easy_2.png', answer: 10},
@@ -63,6 +57,12 @@ let ANSWERS = {
     '../static/img/hard/card_hard_3.png': 23,
 };
 
+let monsterImages = [
+    '../static/img/bbb1.png',
+    '../static/img/bbb3.png',
+    '../static/img/bbb3.1.png',
+];
+
 enemyImage = new Image();
 enemyImage.src = 'static/img/monstr1.png';
 
@@ -86,6 +86,51 @@ let ph = new Image();
 ph.src = '../static/img/ph.png';
 
 let f = new FontFace('Comic', 'url(../static/font/zlu.ttf)');
+
+let imagesToLoad = [
+    '../static/img/bbb1.png',
+    '../static/img/bbb3.png',
+    '../static/img/bbb3.1.png',
+
+    '../static/img/dC1.png',
+    '../static/img/dBh1.png',
+    '../static/img/ph.png',
+
+    // Добавляем изображения для карточек
+    '../static/img/easy/card_easy_1.png',
+    '../static/img/easy/card_easy_2.png',
+    '../static/img/easy/card_easy_3.png',
+    '../static/img/easy/card_easy_4.png',
+    '../static/img/easy/card_easy_5.png',
+    '../static/img/easy/card_easy_6.png',
+
+    '../static/img/medium/card_medium_1.png',
+    '../static/img/medium/card_medium_2.png',
+    '../static/img/medium/card_medium_3.png',
+    '../static/img/medium/card_medium_4.png',
+    '../static/img/medium/card_medium_5.png',
+    '../static/img/medium/card_medium_6.png',
+
+    '../static/img/hard/card_hard_1.png',
+    '../static/img/hard/card_hard_2.png',
+    '../static/img/hard/card_hard_3.png',
+
+    '../static/img/pxxx1.png',
+    '../static/img/pxxx2.png',
+    '../static/img/pxxx3.png',
+];
+
+let loadedImages = {};
+
+let currentCardImagePath = '';
+
+let currentBackgroundImage = '';
+
+let backgroundImages = [
+    '../static/img/pxxx1.png',
+    '../static/img/pxxx2.png',
+    '../static/img/pxxx3.png',
+];
 
 ph.onload = function () {
     f.load().then(function (font) {
@@ -186,8 +231,6 @@ function generateEquation(difficulty) {
     return selectedCard;
 }
 
-let currentCardImagePath = '';
-
 function redirectToWin(score, record) {
     window.location.href = `/win?score=${score}&record=${record}`;
 }
@@ -278,14 +321,6 @@ function drawPlayerHealthBar() {
     }
 }
 
-let currentBackgroundImage = '';
-
-let backgroundImages = [
-    '../static/img/pxxx1.png',
-    '../static/img/pxxx2.png',
-    '../static/img/pxxx3.png',
-];
-
 function draw(clicked, card) {
     ctx.fillStyle = '#2b2b2b';
 
@@ -345,41 +380,6 @@ function draw(clicked, card) {
     }
 }
 
-let imagesToLoad = [
-    '../static/img/bbb1.png',
-    '../static/img/bbb3.png',
-    '../static/img/bbb3.1.png',
-
-    '../static/img/dC1.png',
-    '../static/img/dBh1.png',
-    '../static/img/ph.png',
-
-    // Добавляем изображения для карточек
-    '../static/img/easy/card_easy_1.png',
-    '../static/img/easy/card_easy_2.png',
-    '../static/img/easy/card_easy_3.png',
-    '../static/img/easy/card_easy_4.png',
-    '../static/img/easy/card_easy_5.png',
-    '../static/img/easy/card_easy_6.png',
-
-    '../static/img/medium/card_medium_1.png',
-    '../static/img/medium/card_medium_2.png',
-    '../static/img/medium/card_medium_3.png',
-    '../static/img/medium/card_medium_4.png',
-    '../static/img/medium/card_medium_5.png',
-    '../static/img/medium/card_medium_6.png',
-
-    '../static/img/hard/card_hard_1.png',
-    '../static/img/hard/card_hard_2.png',
-    '../static/img/hard/card_hard_3.png',
-
-    '../static/img/pxxx1.png',
-    '../static/img/pxxx2.png',
-    '../static/img/pxxx3.png',
-];
-
-let loadedImages = {};
-
 async function loadImage(src) {
     return new Promise((resolve, reject) => {
         let image = new Image();
@@ -410,3 +410,4 @@ document.addEventListener('DOMContentLoaded', function () {
     startGame();
 });
 // TODO: добавить таймер
+// TODO: правила игры вместо настроек

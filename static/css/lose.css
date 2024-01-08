@@ -20,6 +20,21 @@ body {
     font-size: 2.5rem;
 }
 
+.restart {
+    background: rgba(0, 0, 0, 0);
+    border: none;
+
+}
+
+.img {
+    width: 150px;
+}
+
+.restart-image {
+    width: 400px;
+    height: 136px;
+}
+
 .gradient-border {
     --borderWidth: 8px;
     background: rgba(0, 0, 0, 0.6);
@@ -53,19 +68,4 @@ body {
     100% {
         background-position: 0 50%;
     }
-}
-
-.restart {
-    background: rgba(0, 0, 0, 0);
-    border: none;
-
-}
-
-.img {
-    width: 150px;
-}
-
-.restart-image {
-    width: 400px;
-    height: 136px;
 }
