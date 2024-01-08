@@ -21,6 +21,11 @@
             <img src="../static/img/anim/anim.gif" class="img restart-image" alt="">
         </button>
     </div>
+    <div class="text-center">
+        <button type="button" class="restart" onclick="mainMenu()">
+            <img src="../static/img/home.png" class="home-image" alt="">
+        </button>
+    </div>
 </div>
 
 
@@ -32,6 +37,10 @@
         let urlParams = new URLSearchParams(window.location.search);
         let record = urlParams.get('record');
         window.location.href = `/proj?record=${record}`;
+    }
+
+    function mainMenu() {
+        window.location.href = `/menu`;
     }
 </script>
 </body>

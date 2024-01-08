@@ -35,6 +35,11 @@ body {
     height: 136px;
 }
 
+.home-image {
+    width: 328px;
+    height: 152px;
+}
+
 .gradient-border {
     --borderWidth: 8px;
     background: rgba(0, 0, 0, 0.6);

@@ -32,6 +32,11 @@ body {
     border: none;
 }
 
+.home-image{
+    width: 328px;
+    height: 152px;
+}
+
 .img {
     width: 150px;
 }

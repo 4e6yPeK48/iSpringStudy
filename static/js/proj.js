@@ -18,23 +18,23 @@ let ENEMY = {
 };
 
 let CARDS = [
-    {stars: 1, imagePath: '../static/img/easy/card_easy_1.png', answer: 10},
-    {stars: 1, imagePath: '../static/img/easy/card_easy_2.png', answer: 10},
-    {stars: 1, imagePath: '../static/img/easy/card_easy_3.png', answer: 10},
-    {stars: 1, imagePath: '../static/img/easy/card_easy_4.png', answer: 10},
-    {stars: 1, imagePath: '../static/img/easy/card_easy_5.png', answer: 10},
-    {stars: 1, imagePath: '../static/img/easy/card_easy_6.png', answer: 10},
+    {stars: 1, imagePath: '../static/img/easy/card_easy_1.png', answer: 7},
+    {stars: 1, imagePath: '../static/img/easy/card_easy_2.png', answer: 6},
+    {stars: 1, imagePath: '../static/img/easy/card_easy_3.png', answer: 7},
+    {stars: 1, imagePath: '../static/img/easy/card_easy_4.png', answer: 8},
+    {stars: 1, imagePath: '../static/img/easy/card_easy_5.png', answer: 8},
+    {stars: 1, imagePath: '../static/img/easy/card_easy_6.png', answer: 6},
 
-    {stars: 2, imagePath: '../static/img/medium/card_medium_1.png', answer: 20},
-    {stars: 2, imagePath: '../static/img/medium/card_medium_2.png', answer: 20},
-    {stars: 2, imagePath: '../static/img/medium/card_medium_3.png', answer: 20},
-    {stars: 2, imagePath: '../static/img/medium/card_medium_4.png', answer: 20},
-    {stars: 2, imagePath: '../static/img/medium/card_medium_5.png', answer: 20},
-    {stars: 2, imagePath: '../static/img/medium/card_medium_6.png', answer: 20},
+    {stars: 2, imagePath: '../static/img/medium/card_medium_1.png', answer: 9},
+    {stars: 2, imagePath: '../static/img/medium/card_medium_2.png', answer: 9},
+    {stars: 2, imagePath: '../static/img/medium/card_medium_3.png', answer: 11},
+    {stars: 2, imagePath: '../static/img/medium/card_medium_4.png', answer: 12},
+    {stars: 2, imagePath: '../static/img/medium/card_medium_5.png', answer: 12},
+    {stars: 2, imagePath: '../static/img/medium/card_medium_6.png', answer: 10},
 
-    {stars: 3, imagePath: '../static/img/hard/card_hard_1.png', answer: 30},
-    {stars: 3, imagePath: '../static/img/hard/card_hard_2.png', answer: 30},
-    {stars: 3, imagePath: '../static/img/hard/card_hard_3.png', answer: 30},
+    {stars: 3, imagePath: '../static/img/hard/card_hard_1.png', answer: 16},
+    {stars: 3, imagePath: '../static/img/hard/card_hard_2.png', answer: 18},
+    {stars: 3, imagePath: '../static/img/hard/card_hard_3.png', answer: 16},
 ];
 
 let ANSWERS = {

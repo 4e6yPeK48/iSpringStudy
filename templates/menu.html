@@ -16,9 +16,14 @@
                 <div class="input-div">Играть</div>
             </div>
         </div>
-        <div class="mt-2">
-            <div class="box gradient-border1">
-                <div class="input-div" id="ps">Правила</div>
+        <div class="rules mt-2">
+            <dialog id="modal">
+                <img src="../static/img/rules.png" alt="">
+            </dialog>
+            <div class="" id="open-dialog">
+                <div class="box gradient-border1">
+                    <div class="input-div" id="ps">Правила</div>
+                </div>
             </div>
         </div>
     </div>
@@ -28,6 +33,15 @@
     function redirectToProj() {
         window.location.href = '/proj';
     }
+</script>
+<script>
+    const modalElement = document.getElementById("modal");
+
+    const openBtn = document.getElementById("open-dialog");
+
+    openBtn.addEventListener("click", () => {
+        modalElement.showModal();
+    });
 </script>
 </body>
 </html>

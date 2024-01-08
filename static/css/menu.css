@@ -37,6 +37,17 @@ body {
     margin: 0;
 }
 
+dialog[open]::backdrop {
+    backdrop-filter: blur(5px);
+}
+
+#modal {
+    background: rgba(0, 0, 0, 0);
+    border: none;
+    outline: none;
+    overflow-y: hidden;
+}
+
 .gradient-border {
     --borderWidth: 8px;
     background: rgba(0, 0, 0, 0.8);
