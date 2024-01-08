@@ -77,13 +77,49 @@ let checkButton = document.querySelector("#check-answer")
 let inputTitle = document.querySelector('#enter-answer')
 
 let deckOpen = new Image(372, 312);
-deckOpen.src = '../static/img/dC1.png';
+deckOpen.src = '../static/img/deck_w1.png';
 
 let deckClose = new Image(372, 312);
-deckClose.src = '../static/img/dBh1.png';
+deckClose.src = '../static/img/deck1.png';
 
 let ph = new Image();
 ph.src = '../static/img/ph.png';
+
+let r0 = new Image();
+r0.src = '../static/img/r0.png';
+
+let r1 = new Image();
+r1.src = '../static/img/r1.png';
+
+let r2 = new Image();
+r2.src = '../static/img/r2.png';
+
+let r3 = new Image();
+r3.src = '../static/img/r3.png';
+
+let r4 = new Image();
+r4.src = '../static/img/r4.png';
+
+let r5 = new Image();
+r5.src = '../static/img/r5.png';
+
+let p0 = new Image();
+p0.src = '../static/img/p0.png';
+
+let p1 = new Image();
+p1.src = '../static/img/p1.png';
+
+let p2 = new Image();
+p2.src = '../static/img/p2.png';
+
+let p3 = new Image();
+p3.src = '../static/img/p3.png';
+
+let p4 = new Image();
+p4.src = '../static/img/p4.png';
+
+let p5 = new Image();
+p5.src = '../static/img/p5.png';
 
 let f = new FontFace('Comic', 'url(../static/font/zlu.ttf)');
 
@@ -274,50 +310,56 @@ function drawTextWithOutline(text, x, y, fillStyle, strokeStyle) {
 }
 
 function drawEnemyHealthBar() {
-    let barWidth = 150;
-    let barHeight = 20;
+    let barWidth = 208;
+    let barHeight = 72;
     let numSegments = 5;
-    let segmentWidth = barWidth / numSegments;
-    let segmentPercentage = 20;
 
-    ctx.fillStyle = 'black';
-    ctx.strokeStyle = 'black';
-    ctx.lineWidth = 2;
-
-    ctx.beginPath();
-    ctx.rect(10, 20, barWidth, barHeight);
-    ctx.stroke();
+    ctx.imageSmoothingEnabled = false;
 
     for (let i = 0; i < numSegments; i++) {
-        let segmentX = 10 + i * segmentWidth;
-        let alpha = Math.max(0, Math.min(1, (ENEMY.hp - i * segmentPercentage) / segmentPercentage));
+        let spriteToDraw;
+        if (ENEMY.hp === 100) {
+            spriteToDraw = r5;
+        } else if (ENEMY.hp > 80) {
+            spriteToDraw = r4;
+        } else if (ENEMY.hp > 60) {
+            spriteToDraw = r3;
+        } else if (ENEMY.hp > 40) {
+            spriteToDraw = r2;
+        } else if (ENEMY.hp > 20) {
+            spriteToDraw = r1;
+        } else {
+            spriteToDraw = r0;
+        }
 
-        ctx.fillStyle = `rgba(255, 0, 77, ${alpha})`;
-        ctx.fillRect(segmentX, 20, segmentWidth, barHeight);
+        ctx.drawImage(spriteToDraw, 10, 20, barWidth, barHeight);
     }
 }
 
 function drawPlayerHealthBar() {
-    let barWidth = 150;
-    let barHeight = 20;
+    let barWidth = 208;
+    let barHeight = 72;
     let numSegments = 5;
-    let segmentWidth = barWidth / numSegments;
-    let segmentPercentage = 20;
 
-    ctx.fillStyle = 'black';
-    ctx.strokeStyle = 'black';
-    ctx.lineWidth = 2;
-
-    ctx.beginPath();
-    ctx.rect(10, 50, barWidth, barHeight);
-    ctx.stroke();
+    ctx.imageSmoothingEnabled = false;
 
     for (let i = 0; i < numSegments; i++) {
-        let segmentX = 10 + i * segmentWidth;
-        let alpha = Math.max(0, Math.min(1, (PLAYER.hp - i * segmentPercentage) / segmentPercentage));
+        let spriteToDraw;
+        if (PLAYER.hp === 100) {
+            spriteToDraw = p5;
+        } else if (PLAYER.hp > 80) {
+            spriteToDraw = p4;
+        } else if (PLAYER.hp > 60) {
+            spriteToDraw = p3;
+        } else if (PLAYER.hp > 40) {
+            spriteToDraw = p2;
+        } else if (PLAYER.hp > 20) {
+            spriteToDraw = p1;
+        } else {
+            spriteToDraw = p0;
+        }
 
-        ctx.fillStyle = `rgba(0, 72, 255, ${alpha})`;
-        ctx.fillRect(segmentX, 50, segmentWidth, barHeight);
+        ctx.drawImage(spriteToDraw, GAME.width - 240, 20, barWidth, barHeight);
     }
 }
 
@@ -349,8 +391,8 @@ function draw(clicked, card) {
     // Счёт
     ctx.font = 'bold 50px Comic';
     ctx.fillStyle = 'white';
-    ctx.fillText(`Счёт: ${GAME.score}`, GAME.width - 200, 50)
-    ctx.fillText(`Рекорд: ${GAME.record}`, GAME.width - 200, 90)
+    ctx.fillText(`Счёт: ${GAME.score}`, 30, 150)
+    ctx.fillText(`Рекорд: ${GAME.record}`, 30, 190)
 
     // Выражение на карте
     ctx.fillStyle = 'black';
