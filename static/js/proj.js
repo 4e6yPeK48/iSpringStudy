@@ -132,7 +132,6 @@ let imagesToLoad = [
     '../static/img/dBh1.png',
     '../static/img/ph.png',
 
-    // Добавляем изображения для карточек
     '../static/img/easy/card_easy_1.png',
     '../static/img/easy/card_easy_2.png',
     '../static/img/easy/card_easy_3.png',
@@ -168,6 +167,9 @@ let backgroundImages = [
     '../static/img/pxxx3.png',
 ];
 
+let timer;
+let timerDuration = 120;
+
 ph.onload = function () {
     f.load().then(function (font) {
         console.log('font ready');
@@ -178,20 +180,64 @@ ph.onload = function () {
     });
 };
 
+function startTimer(start) {
+    if (start) {
+        timer = setInterval(() => {
+            timerDuration--;
+            drawTimer(timerDuration);
+
+            if (timerDuration <= 0) {
+                clearInterval(timer);
+                redirectToLose(GAME.score, GAME.record);
+            }
+        }, 1000);
+    }
+}
+
+function stopTimer() {
+    clearInterval(timer);
+}
+
+function resetTimer() {
+    stopTimer();
+    timerDuration = 120;
+    drawTimer(timerDuration);
+}
+
+function drawTimer(seconds) {
+    ctx.font = 'bold 50px Comic';
+    ctx.fillStyle = 'white';
+    ctx.clearRect(20, 199, 200, 52);
+    ctx.fillText(`Время: ${seconds}с`, 30, 240);
+}
+
 function initEventListener() {
     canvas.addEventListener('mousedown', onClick);
 
     checkButton.addEventListener('click', () => {
         let answer = Number(inputTitle.value);
-        if (selected === 0) checkAnswer(answer, 1);
-        if (selected === 1) checkAnswer(answer, 2);
-        if (selected === 2) checkAnswer(answer, 3);
-    })
+        if (selected === 0 || selected === 1 || selected === 2) {
+            stopTimer();
+            checkAnswer(answer, selected + 1);
+            enableCardSelection();
+        }
+    });
 
-    window.addEventListener('keydown', onKeyDown)
+    window.addEventListener('keydown', onKeyDown);
+}
+
+function disableCardSelection() {
+    canvas.removeEventListener('mousedown', onClick);
+}
+
+function enableCardSelection() {
+    canvas.addEventListener('mousedown', onClick);
 }
 
 function onClick(event) {
+    disableCardSelection();
+    resetTimer();
+
     let clickX = event.clientX;
 
     let loadImagePromises = [];
@@ -199,16 +245,19 @@ function onClick(event) {
     if (clickX < GAME.width / 3) {
         selected = 0;
         loadImagePromises.push(loadImage(generateEquation(1).imagePath));
+        startTimer(true);
     }
 
     if ((clickX > GAME.width / 3) && (clickX < GAME.width / 3 * 2)) {
         selected = 1;
         loadImagePromises.push(loadImage(generateEquation(2).imagePath));
+        startTimer(true);
     }
 
     if (clickX > (GAME.width / 3 * 2)) {
         selected = 2;
         loadImagePromises.push(loadImage(generateEquation(3).imagePath));
+        startTimer(true);
     }
 
     Promise.all(loadImagePromises)
@@ -219,6 +268,7 @@ function onClick(event) {
             console.error('Ошибка загрузки изображения:', error);
         });
 }
+
 
 function onKeyDown(event) {
     if (event.key === 'b') {
@@ -255,6 +305,8 @@ function resetGame(b) {
         GAME.score = 0;
 
         CARDS.forEach(card => card.equation = generateEquation(card.stars));
+        startTimer();
+        enableCardSelection();
 
         draw();
     }
@@ -277,7 +329,6 @@ function redirectToLose(score, record) {
 
 function checkAnswer(answer) {
     let correctAnswer = ANSWERS[currentCardImagePath];
-    console.log(typeof answer, answer, typeof correctAnswer, correctAnswer, 'ans');
 
     if (answer === correctAnswer) {
         ENEMY.hp -= answer;
@@ -290,7 +341,7 @@ function checkAnswer(answer) {
             draw();
         }
     } else {
-        PLAYER.hp -= answer;
+        PLAYER.hp -= correctAnswer;
         CARDS.forEach(card => card.equation = generateEquation(card.stars));
         if (PLAYER.hp <= 0) {
             redirectToLose(GAME.score, GAME.record);
@@ -371,30 +422,24 @@ function draw(clicked, card) {
     } else {
     }
 
-    // ХП врага и игрока
     drawEnemyHealthBar();
     drawPlayerHealthBar();
 
-    // Враг
     ctx.drawImage(enemyImage, ENEMY.x - ENEMY.width / 2, ENEMY.y + 39, ENEMY.width, ENEMY.height);
 
-    // Карты неизвестные
     ctx.drawImage(deckClose, 25, GAME.height / 2 + 30, 372, 312);
     ctx.drawImage(deckClose, GAME.width / 2 - 186, GAME.height / 2 + 30, 372, 312);
     ctx.drawImage(deckClose, GAME.width - 372 - 25, GAME.height / 2 + 30, 372, 312);
 
-    // Сложность на картах
     drawTextWithOutline('Легко', 160, GAME.height / 2 + 180, 'white', 'black');
     drawTextWithOutline('Средне', GAME.width / 2 - 70, GAME.height / 2 + 180, 'white', 'black');
     drawTextWithOutline('Сложно', GAME.width - 280, GAME.height / 2 + 180, 'white', 'black');
 
-    // Счёт
     ctx.font = 'bold 50px Comic';
     ctx.fillStyle = 'white';
     ctx.fillText(`Счёт: ${GAME.score}`, 30, 150)
     ctx.fillText(`Рекорд: ${GAME.record}`, 30, 190)
 
-    // Выражение на карте
     ctx.fillStyle = 'black';
     ctx.imageSmoothingEnabled = false;
     if (clicked === true) {
@@ -449,7 +494,8 @@ async function startGame() {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    startGame();
+    startGame().then(_ => {
+        drawTimer(timerDuration);
+        enableCardSelection();
+    });
 });
-// TODO: добавить таймер
-// TODO: правила игры вместо настроек
