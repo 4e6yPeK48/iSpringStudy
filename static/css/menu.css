@@ -34,7 +34,7 @@
 
 body {
     height: 100vh;
-    background: url("../img/menu_ph2.png");
+    background: url("../img/mars.jpg");
     animation: animatedBackground 50s linear infinite;
     -moz-animation: animatedBackground 50s linear infinite;
     -webkit-animation: animatedBackground 50s linear infinite;
@@ -74,7 +74,7 @@ dialog[open]::backdrop {
     left: calc(-1 * var(--borderWidth));
     height: calc(100% + var(--borderWidth) * 2);
     width: calc(100% + var(--borderWidth) * 2);
-    background: linear-gradient(60deg, #012b5d, #049fe5, #004087, #e090ae, #5c91ba, #5e5d92, #02598d);
+    background: linear-gradient(60deg, #63237d, #be5189, #7c2e84, #b84d92, #f7e9ba, #e1517a, #fd98d4);
     border-radius: calc(2 * var(--borderWidth));
     z-index: -1;
     animation: animatedGradient 2.5s ease alternate infinite;
@@ -118,14 +118,14 @@ dialog[open]::backdrop {
 
 @keyframes slideIn {
     0% {
-        width: 55%;
+        width: 65%;
     }
 
     50% {
-        width: 40%;
+        width: 50%;
     }
 
     100% {
-        width: 55%;
+        width: 65%;
     }
 }
