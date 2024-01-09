@@ -11,10 +11,10 @@ let PLAYER = {
 
 let ENEMY = {
     hp: 100,
-    width: 400,
-    height: 346,
-    x: GAME.width / 2 - 25,
-    y: 30,
+    width: 0,
+    height: 0,
+    x: GAME.width / 2 + 25,
+    y: 80,
 };
 
 let CARDS = [
@@ -30,7 +30,7 @@ let CARDS = [
     {stars: 2, imagePath: '../static/img/medium/card_medium_3.png', answer: 11},
     {stars: 2, imagePath: '../static/img/medium/card_medium_4.png', answer: 12},
     {stars: 2, imagePath: '../static/img/medium/card_medium_5.png', answer: 12},
-    {stars: 2, imagePath: '../static/img/medium/card_medium_6.png', answer: 10},
+    // {stars: 2, imagePath: '../static/img/medium/card_medium_6.png', answer: 10},
 
     {stars: 3, imagePath: '../static/img/hard/card_hard_1.png', answer: 16},
     {stars: 3, imagePath: '../static/img/hard/card_hard_2.png', answer: 18},
@@ -50,7 +50,7 @@ let ANSWERS = {
     '../static/img/medium/card_medium_3.png': 13,
     '../static/img/medium/card_medium_4.png': 14,
     '../static/img/medium/card_medium_5.png': 15,
-    '../static/img/medium/card_medium_6.png': 16,
+    // '../static/img/medium/card_medium_6.png': 16,
 
     '../static/img/hard/card_hard_1.png': 21,
     '../static/img/hard/card_hard_2.png': 22,
@@ -58,9 +58,10 @@ let ANSWERS = {
 };
 
 let monsterImages = [
-    '../static/img/bbb1.png',
-    '../static/img/bbb3.png',
-    '../static/img/bbb3.1.png',
+    '../static/img/slime.png',
+    '../static/img/ghost.png',
+    '../static/img/spike.png',
+    '../static/img/devil.png',
 ];
 
 enemyImage = new Image();
@@ -124,9 +125,10 @@ p5.src = '../static/img/p5.png';
 let f = new FontFace('Comic', 'url(../static/font/zlu.ttf)');
 
 let imagesToLoad = [
-    '../static/img/bbb1.png',
-    '../static/img/bbb3.png',
-    '../static/img/bbb3.1.png',
+    '../static/img/slime.png',
+    '../static/img/ghost.png',
+    '../static/img/spike.png',
+    '../static/img/devil.png',
 
     '../static/img/dC1.png',
     '../static/img/dBh1.png',
@@ -144,7 +146,7 @@ let imagesToLoad = [
     '../static/img/medium/card_medium_3.png',
     '../static/img/medium/card_medium_4.png',
     '../static/img/medium/card_medium_5.png',
-    '../static/img/medium/card_medium_6.png',
+    // '../static/img/medium/card_medium_6.png',
 
     '../static/img/hard/card_hard_1.png',
     '../static/img/hard/card_hard_2.png',
@@ -207,8 +209,8 @@ function resetTimer() {
 function drawTimer(seconds) {
     ctx.font = 'bold 50px Comic';
     ctx.fillStyle = 'white';
-    ctx.clearRect(20, 199, 200, 52);
-    ctx.fillText(`Время: ${seconds}с`, 30, 240);
+    ctx.clearRect(20, 250, 200, 52);
+    ctx.fillText(`Время: ${seconds}с`, 30, 290);
 }
 
 function initEventListener() {
@@ -286,15 +288,49 @@ function resetGame(b) {
     GAME.record = parseInt(new URLSearchParams(window.location.search).get('record')) || 0;
     if (b === true) {
         let randomMonsterIndex = Math.floor(Math.random() * monsterImages.length);
-        if (monsterImages[randomMonsterIndex] === '../static/img/bbb3.png') {
-            ENEMY.width = 300;
+
+        switch (monsterImages[randomMonsterIndex]) {
+            case '../static/img/slime.png':
+                ENEMY.width = 300;
+                ENEMY.height = 280;
+                ENEMY.y = 140;
+                break;
+            case '../static/img/ghost.png':
+                ENEMY.width = 300;
+                ENEMY.height = 280;
+                ENEMY.y = 140;
+                break;
+            case '../static/img/spike.png':
+                ENEMY.width = 350;
+                ENEMY.height = 350;
+                ENEMY.y = 60;
+                break;
+            case '../static/img/devil.png':
+                ENEMY.width = 320;
+                ENEMY.height = 300;
+                ENEMY.y = 80;
+                break;
         }
-        if (monsterImages[randomMonsterIndex] === '../static/img/bbb3.1.png') {
-            ENEMY.width = 400;
-        }
-        if (monsterImages[randomMonsterIndex] === '../static/img/bbb1.png') {
-            ENEMY.width = 350;
-        }
+
+        // if (monsterImages[randomMonsterIndex] === '../static/img/slime.png') {
+        //     ENEMY.width = 300;
+        //     ENEMY.height = 280;
+        //     ENEMY.y = 140;
+        // }
+        // if (monsterImages[randomMonsterIndex] === '../static/img/ghost.png') {
+        //     ENEMY.width = 400;
+        //     ENEMY.height = 400;
+        // }
+        // if (monsterImages[randomMonsterIndex] === '../static/img/spike.png') {
+        //     ENEMY.width = 350;
+        //     ENEMY.height = 350;
+        //     ENEMY.y = 60;
+        // }
+        // if (monsterImages[randomMonsterIndex] === '../static/img/devil.png') {
+        //     ENEMY.width = 320;
+        //     ENEMY.height = 300;
+        //     ENEMY.y = 80;
+        // }
 
         enemyImage.src = monsterImages[randomMonsterIndex];
         console.log(monsterImages[randomMonsterIndex]);
@@ -436,8 +472,10 @@ function draw(clicked, card) {
 
     ctx.font = 'bold 50px Comic';
     ctx.fillStyle = 'white';
-    ctx.fillText(`Счёт: ${GAME.score}`, 30, 150)
-    ctx.fillText(`Рекорд: ${GAME.record}`, 30, 190)
+    ctx.fillText(`Счёт: ${GAME.score}`, 30, 190);
+    ctx.fillText(`Рекорд: ${GAME.record}`, 30, 230);
+    ctx.fillText(`Враг`, 240, 80);
+    ctx.fillText(`Игрок`, GAME.width - 340, 80);
 
     ctx.fillStyle = 'black';
     ctx.imageSmoothingEnabled = false;

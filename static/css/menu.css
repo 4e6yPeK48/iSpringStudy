@@ -34,7 +34,17 @@
 
 body {
     height: 100vh;
-    margin: 0;
+    background: url("../img/menu_ph2.png");
+    animation: animatedBackground 50s linear infinite;
+    -moz-animation: animatedBackground 50s linear infinite;
+    -webkit-animation: animatedBackground 50s linear infinite;
+    -o-animation: animatedBackground 50s linear infinite;
+}
+
+@-webkit-keyframes animatedBackground {
+    100% {
+        background-position: 1920px 0;
+    }
 }
 
 dialog[open]::backdrop {
@@ -90,4 +100,32 @@ dialog[open]::backdrop {
         background-position: 0 50%;
     }
 
+}
+
+.animated-logo {
+    width: 250px;
+    animation: slideIn 3s infinite;
+}
+
+.logo-container {
+    width: 850px;
+    height: 150px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes slideIn {
+    0% {
+        width: 55%;
+    }
+
+    50% {
+        width: 40%;
+    }
+
+    100% {
+        width: 55%;
+    }
 }

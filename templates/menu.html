@@ -8,9 +8,12 @@
     <link rel="stylesheet" href="../static/css/menu.css">
     <link rel="icon" type="image/png" href="../static/img/лого.png"/>
 </head>
-<body class="bg-image">
+<body>
 <div class="container d-flex align-items-center justify-content-center h-100">
     <div class="row d-flex flex-column align-items-center my-auto">
+        <div class="mb-3 logo-container">
+            <img src="../static/img/logo.png" class="animated-logo" alt="">
+        </div>
         <div class="mb-3">
             <div class="box gradient-border" onclick="redirectToProj()">
                 <div class="input-div">Играть</div>
@@ -35,12 +38,23 @@
     }
 </script>
 <script>
-    const modalElement = document.getElementById("modal");
+    let modalElement = document.getElementById("modal");
 
-    const openBtn = document.getElementById("open-dialog");
+    let openBtn = document.getElementById("open-dialog");
 
     openBtn.addEventListener("click", () => {
         modalElement.showModal();
+    });
+
+
+    let dialog = document.getElementsByTagName('dialog')[0];
+    dialog.addEventListener('click', function (event) {
+        let rect = dialog.getBoundingClientRect();
+        let isInDialog = (rect.top <= event.clientY && event.clientY <= rect.top + rect.height &&
+            rect.left <= event.clientX && event.clientX <= rect.left + rect.width);
+        if (!isInDialog) {
+            dialog.close();
+        }
     });
 </script>
 </body>
